@@ -1,5 +1,6 @@
 module System.Information.Memory (
   MemoryInfo(..),
+  memoryUsedPct,
   parseMeminfo
   ) where
 
@@ -41,3 +42,6 @@ parseMeminfo = do
            , memoryUsedRatio = usedRatio
            }
 
+
+memoryUsedPct :: MemoryInfo -> Double
+memoryUsedPct = (* 100) . memoryUsedRatio

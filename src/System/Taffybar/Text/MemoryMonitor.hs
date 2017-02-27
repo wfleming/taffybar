@@ -7,7 +7,7 @@ import qualified Graphics.UI.Gtk as Gtk
 
 -- | Creates a simple textual memory monitor. It updates once every polling
 -- period (in seconds).
-textMemoryMonitorNew :: String -- ^ Format. You can use variables: "used", "total", "free", "buffer", "cache", "rest", "used".
+textMemoryMonitorNew :: String -- ^ Format. You can use variables: "used", "total", "free", "buffer", "cache", "rest", "usedPct".
                      -> Double -- ^ Polling period in seconds.
                      -> IO Gtk.Widget
 textMemoryMonitorNew fmt period = do
@@ -18,8 +18,8 @@ textMemoryMonitorNew fmt period = do
       callback = do
         info <- parseMeminfo
         let template = ST.newSTMP fmt
-        let labels = ["used", "total", "free", "buffer", "cache", "rest", "used"]
-        let actions = [memoryUsed, memoryTotal, memoryFree, memoryBuffer, memoryCache, memoryRest]
+        let labels = ["used", "total", "free", "buffer", "cache", "rest", "usedPct"]
+        let actions = [memoryUsed, memoryTotal, memoryFree, memoryBuffer, memoryCache, memoryRest, memoryUsedPct]
             actions' = map ((show . intRound).) actions
         let stats = [f info | f <- actions']
         let template' = ST.setManyAttrib (zip labels stats) template
